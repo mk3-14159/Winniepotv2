@@ -17,5 +17,5 @@ NUIG FYP Honeypot Group (Coordinator: Martin Hughes)
 * To deploy a winniepot instance
 
 ```sh
-python winniepot.py
+python3 winniepot.py
 ```
