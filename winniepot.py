@@ -11,19 +11,24 @@ import argparse
 import os
 import glob
 
+# custom library imports
+import animations
+
+
 # prints banner logo located in the ../../banner directory
 def import_banner():
   with open("banner/banner.txt", "r") as f:
     for line in f:
       print(line.rstrip())
-  
 
-def main():
-  import_banner()
+# Datetime prompt 
+def get_input():
+  d = datetime.datetime.now()
+  print("datetime : %s" % d)
 
 if __name__ == "__main__":
-  main()
-
+  animations.animation_bar_load()
+  
 
 
 
