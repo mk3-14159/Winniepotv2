@@ -42,7 +42,7 @@ def animation_arrow_load():
             break
         sys.stdout.write('\rloading ' + c)
         sys.stdout.flush()
-        time.sleep(0.1)
+        time.sleep(0.2)
     sys.stdout.write('\rDone!')
     t = threading.Thread(target=animate)
     t.start()
@@ -54,8 +54,7 @@ def animation_tqdm():
   for i in tqdm(range(100)):
     time.sleep(0.01)
 
-"""
 if __name__ == "__main__":
   animation_tqdm()
   animation_success()
-"""
+  animation_bar_load()

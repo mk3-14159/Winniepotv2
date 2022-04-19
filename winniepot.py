@@ -41,11 +41,21 @@ def get_port(d):
         return port
         
 # write the log to 
+'''
 def write_log(client, data=''):
   border = "="*50
-  f = open("./winniepot.mmh", "r+b")
+  f = open("./winniepot.mmh", "a")
   f.write("Time: %s\nIP: %s\nPort: %d\nData: %s\n%s\n\n" % (time.ctime(), client[0], client[1], data, border))
   f.close()
+'''
+
+# different implementation to the writelog
+# -> https://realpython.com/python-sockets/ might be of use
+def write_log(client, data = ''):
+  border = "="*50
+  with open("winniepot.log", "a") as file_object:
+    file_object.write("Time: %s\nIP: %s\nPort: %d\nData: %s\n%s\n\n" % (time.ctime(), client[0], client[1], data, border))
+
 
 # main function to start the instance, pass in the host ipaddress and port
 def start(host, port, d):
