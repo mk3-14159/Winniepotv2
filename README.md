@@ -1,7 +1,8 @@
+![banner](https://github.com/mk3-14159/Winniepotv2/blob/master/banner/README_Banner.png)
+
 # Winniepot Version 2 
 ---
 
-![banner](https://github.com/mk3-14159/Winniepotv2/blob/master/banner/README_Banner.png)
 
 ```
  _     _  ___   __    _  __    _  ___   _______  _______  _______  _______
