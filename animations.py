@@ -31,8 +31,11 @@ def animation_bar_load():
 
 # success animation
 def animation_success():
-  print("Deploying Winniepot : ")
-  print('\x1b[6;30;42m' + 'Success! \n' + '\x1b[0m')
+  print('\x1b[6;30;42m' + 'Online ! ' + '\x1b[0m')
+
+# ping captured
+def animation_ping_captured():
+  print('\x1b[6;30;42m' + 'Connection Captured! ' + '\x1b[0m')
 
 # itertools arrow animation - don't use this  
 def animation_arrow_load():
@@ -40,7 +43,7 @@ def animation_arrow_load():
     for c in itertools.cycle(['|', '/', '-', '\\']):
         if done:
             break
-        sys.stdout.write('\rloading ' + c)
+        sys.stdout.write('\rlistening ' + c)
         sys.stdout.flush()
         time.sleep(0.2)
     sys.stdout.write('\rDone!')

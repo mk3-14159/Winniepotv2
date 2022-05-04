@@ -7,12 +7,48 @@ All rights reserved.
 import time
 import socket
 import datetime
-import argparse
 import os
 import glob
+from http.server import BaseHTTPRequestHandler, HTTPServer
+import logging 
 
 # custom library imports
-import animations
+from animations import *
+
+# HTTP handler class
+class S(BaseHTTPRequestHandler):
+    def _set_response(self):
+        self.send_response(200)
+        self.send_header('Content-type', 'text/html')
+        self.end_headers()
+
+    def do_GET(self):
+        logging.info("GET request,\nPath: %s\nHeaders:\n%s\n", str(self.path), str(self.headers))
+        self._set_response()
+        self.wfile.write("Winniepot Decoy Module (deceptive server environment) {}".format(self.path).encode('utf-8'))
+
+    def do_POST(self):
+        content_length = int(self.headers['Content-Length']) # <--- Gets the size of data
+        post_data = self.rfile.read(content_length) # <--- Gets the data itself
+        logging.info("POST request,\nPath: %s\nHeaders:\n%s\n\nBody:\n%s\n",
+                str(self.path), str(self.headers), post_data.decode('utf-8'))
+
+        self._set_response()
+        self.wfile.write("POST request for {}".format(self.path).encode('utf-8'))
+
+def run(server_class=HTTPServer, handler_class=S, port=8080):
+    logging.basicConfig(level=logging.INFO)
+    server_address = ('', port)
+    httpd = server_class(server_address, handler_class)
+    logging.info('Winniepot is listening...\n')
+    animation_success()
+    try:
+        httpd.serve_forever()
+    except KeyboardInterrupt:
+        pass
+    httpd.server_close()
+    logging.info('Stopping Winniepot...\n')
+
 
 # prints banner logo located in the ../../banner directory
 def import_banner():
@@ -20,27 +56,8 @@ def import_banner():
     for line in f:
       print(line.rstrip())
 
-# get the host ip
-def get_host(d):
-  host = input(d.strftime("[+] [%Y-%m-%d %H:%M:%S] Target IP Host : "))
-  return host
 
-# get the ip port & check the range between 1 and 65535
-def get_port(d):
-  while True:
-    try:
-      port = int(input(d.strftime("[+] [%Y-%m-%d %H:%M:%S] Target port : ")))
-    except TypeError:
-      print("[-] Error => Invalid port number")
-      continue
-    else:
-      if 1 < port > 65535:
-        print("[-] Error => Invalid port number ")
-        continue
-      else:
-        return port
-        
-# write the log to 
+# Write the http log into a mmh file 
 '''
 def write_log(client, data=''):
   border = "="*50
@@ -48,14 +65,6 @@ def write_log(client, data=''):
   f.write("Time: %s\nIP: %s\nPort: %d\nData: %s\n%s\n\n" % (time.ctime(), client[0], client[1], data, border))
   f.close()
 '''
-
-# different implementation to the writelog
-# -> https://realpython.com/python-sockets/ might be of use
-def write_log(client, data = ''):
-  border = "="*50
-  with open("winniepot.log", "a") as file_object:
-    file_object.write("Time: %s\nIP: %s\nPort: %d\nData: %s\n%s\n\n" % (time.ctime(), client[0], client[1], data, border))
-
 
 # main function to start the instance, pass in the host ipaddress and port
 def start(host, port, d):
@@ -79,33 +88,24 @@ def start(host, port, d):
 
 # remember that datetime d in instantiated here 
 if __name__ == "__main__":
+  from sys import argv
+  import_banner()
+  # animation_arrow_load()
   d = datetime.datetime.now()
-  try:
-    host = get_host(d)
-    port = get_port(d)
-    start(host, port, d)
-  except KeyboardInterrupt:
-    print("[-] Winniepot has been deactivated")
-    exit(0)
-  except Exception as e:
-    print("Error : %s" % e)
-    exit(1)
+  print("Winniepot instance started at %s" % d)
+  animation_tqdm()
 
-"""
-  parser = argparse.ArgumentParser(
-  description='Honeypot demonstration project'
-  )
-  parser.add_argument(
-  '-ip',
-  '--ip',
-  action = 'store',
-  dest = 'ip_address',
-  help='input local ip address to set up the honeypot'
-  )
-  args = parser.parse_args()
-  ip_address = args.ip_address
-  main()
-"""
+  border = "="*50
+  f = open("winniepot.log", "a")
+
+  # runtime
+  if len(argv) == 2:
+    run(port=int(argv[1]))
+    # f.write(run(port=int(argv[1])))
+  else:
+    run()
+    # f.write(run())
+
 
 
 
