@@ -1,7 +1,7 @@
 # Winniepot Version 2 
 ---
 
-![banner](http://url/to/img.png)
+![banner](Winniepotv2/banner/README_Banner.png)
 
 
 
